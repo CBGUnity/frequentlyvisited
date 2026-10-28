@@ -1,5 +1,5 @@
 # frequentlyvisited
-A tool for Project Managers or other to store webpages instead of using favorites
+A reusable link dashboard designed for project managers and teams to organize project sites, tools, resources, and frequently used webpages in one convenient location.
 # Frequently Viewed Sites Template
 
 A reusable, single-file HTML portal for organizing frequently used links by category. It includes responsive cards, search, category filtering, keyboard focus styling, and an empty-results state.
