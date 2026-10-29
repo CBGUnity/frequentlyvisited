@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frequently Viewed Sites</title>
+<style>
+:root {
+    --primary: #003057;
+    --secondary: #005a9c;
+    --accent: #00a3e0;
+    --background: #f4f7fa;
+    --card: #ffffff;
+    --text: #17324d;
+    --muted: #60758a;
+    --border: #dbe5ee;
+    --focus: #ffbf47;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; font-family: "Segoe UI", Arial, sans-serif; background: var(--background); color: var(--text); }
+a { color: inherit; }
+header { background: linear-gradient(120deg, var(--primary), var(--secondary)); color: #fff; padding: 28px 24px 22px; box-shadow: 0 3px 14px rgba(0,48,87,.22); }
+.header-inner, main, footer { max-width: 1500px; margin: auto; }
+.title-row { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px; }
+h1 { margin: 0 0 6px; font-size: clamp(1.8rem, 3vw, 2.55rem); }
+header p { margin: 0; opacity: .9; }
+.home-link { display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border: 1px solid rgba(255,255,255,.35); border-radius: 9px; background: rgba(255,255,255,.14); color: #fff; text-decoration: none; font-weight: 600; }
+.home-link:hover { background: rgba(255,255,255,.23); }
+.toolbar { max-width: 1500px; margin: 18px auto 0; display: flex; flex-wrap: wrap; gap: 12px; }
+.search-wrap { flex: 1; min-width: 260px; position: relative; }
+.search-wrap input { width: 100%; padding: 13px 44px 13px 16px; border: 0; border-radius: 10px; outline: none; font-size: 1rem; }
+.search-wrap input:focus { box-shadow: 0 0 0 4px var(--focus); }
+.search-icon { position: absolute; top: 12px; right: 15px; color: #4f6478; }
+.filter { min-height: 44px; padding: 0 13px; border: 1px solid rgba(255,255,255,.45); border-radius: 10px; background: #fff; color: var(--primary); font-weight: 600; }
+main { padding: 24px; }
+.status { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 16px; color: var(--muted); font-size: .93rem; }
+.dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
+.card { min-width: 0; overflow: hidden; background: var(--card); border: 1px solid var(--border); border-radius: 14px; box-shadow: 0 4px 16px rgba(20,52,80,.07); }
+.card-header { display: flex; align-items: center; gap: 9px; padding: 14px 16px; background: var(--primary); color: #fff; font-size: 1.08rem; font-weight: 700; }
+.card-content { padding: 8px 10px 12px; }
+.section-title { margin: 13px 8px 6px; padding-bottom: 6px; border-bottom: 1px solid var(--border); color: var(--secondary); font-size: .82rem; letter-spacing: .08em; text-transform: uppercase; }
+.link-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px; border-radius: 8px; color: var(--primary); line-height: 1.25; text-decoration: none; }
+.link-item:hover { background: #edf6fc; color: #002845; }
+.link-item:focus { outline: 3px solid var(--focus); outline-offset: 1px; }
+.link-item::after { content: "↗"; flex: none; color: #7890a5; font-size: .85rem; }
+.hidden { display: none !important; }
+.empty { display: none; padding: 35px; border: 1px dashed var(--border); border-radius: 12px; background: #fff; color: var(--muted); text-align: center; }
+footer { padding: 0 24px 28px; color: var(--muted); font-size: .86rem; }
+@media (max-width: 600px) {
+    header { padding: 22px 16px; }
+    main { padding: 16px; }
+    .dashboard { grid-template-columns: 1fr; }
+    .status { align-items: flex-start; flex-direction: column; }
+    .filter { width: 100%; }
+}
+</style>
+</head>
+<body>
+<header>
+<div class="header-inner">
+    <div class="title-row">
+        <div>
+            <h1>{{PORTAL_TITLE}}</h1>
+            <p>{{PORTAL_DESCRIPTION}}</p>
+        </div>
+        <!-- Replace {{HOME_URL}} and {{HOME_LABEL}} before publishing. -->
+        <a class="home-link" target="_blank" rel="noopener noreferrer" href="{{HOME_URL}}">{{HOME_LABEL}}</a>
+    </div>
+    <div class="toolbar">
+        <div class="search-wrap">
+            <input id="search" type="search" placeholder="Search links, projects, or tools..." aria-label="Search portal links">
+            <span class="search-icon" aria-hidden="true">⌕</span>
+        </div>
+        <select id="filter" class="filter" aria-label="Filter portal categories">
+            <option value="all">All categories</option>
+        </select>
+    </div>
+</div>
+</header>
+<main>
+    <div class="status">
+        <span id="resultCount"></span>
+        <span>Web links open in a new tab</span>
+    </div>
+
+    <div id="dashboard" class="dashboard">
+        <!-- COPY THIS SECTION TO ADD ANOTHER CATEGORY -->
+        <section class="card" data-category="Category One">
+            <div class="card-header">📋 Category One</div>
+            <div class="card-content">
+                <a class="link-item" target="_blank" rel="noopener noreferrer" href="{{CATEGORY_ONE_LINK_1_URL}}">{{CATEGORY_ONE_LINK_1_LABEL}}</a>
+                <a class="link-item" target="_blank" rel="noopener noreferrer" href="{{CATEGORY_ONE_LINK_2_URL}}">{{CATEGORY_ONE_LINK_2_LABEL}}</a>
+
+                <h3 class="section-title">Optional Subsection</h3>
+                <a class="link-item" target="_blank" rel="noopener noreferrer" href="{{CATEGORY_ONE_SUB_LINK_1_URL}}">{{CATEGORY_ONE_SUB_LINK_1_LABEL}}</a>
+            </div>
+        </section>
+
+        <section class="card" data-category="Category Two">
+            <div class="card-header">🛡️ Category Two</div>
+            <div class="card-content">
+                <a class="link-item" target="_blank" rel="noopener noreferrer" href="{{CATEGORY_TWO_LINK_1_URL}}">{{CATEGORY_TWO_LINK_1_LABEL}}</a>
+                <a class="link-item" target="_blank" rel="noopener noreferrer" href="{{CATEGORY_TWO_LINK_2_URL}}">{{CATEGORY_TWO_LINK_2_LABEL}}</a>
+            </div>
+        </section>
+
+        <section class="card" data-category="Category Three">
+            <div class="card-header">🧰 Category Three</div>
+            <div class="card-content">
+                <a class="link-item" target="_blank" rel="noopener noreferrer" href="{{CATEGORY_THREE_LINK_1_URL}}">{{CATEGORY_THREE_LINK_1_LABEL}}</a>
+                <a class="link-item" target="_blank" rel="noopener noreferrer" href="{{CATEGORY_THREE_LINK_2_URL}}">{{CATEGORY_THREE_LINK_2_LABEL}}</a>
+            </div>
+        </section>
+    </div>
+
+    <div id="empty" class="empty">No links match your search.</div>
+</main>
+<footer>{{FOOTER_TEXT}}</footer>
+<script>
+const search = document.getElementById("search");
+const filter = document.getElementById("filter");
+const cards = [...document.querySelectorAll(".card")];
+const resultCount = document.getElementById("resultCount");
+const emptyMessage = document.getElementById("empty");
+
+const categories = [...new Set(cards.map(card => card.dataset.category))].sort();
+categories.forEach(category => filter.add(new Option(category, category)));
+
+function updatePortal() {
+    const query = search.value.trim().toLowerCase();
+    const selectedCategory = filter.value;
+    let visibleLinks = 0;
+
+    cards.forEach(card => {
+        let cardMatches = 0;
+        const links = [...card.querySelectorAll(".link-item")];
+
+        links.forEach(link => {
+            const matchesSearch = !query || link.textContent.toLowerCase().includes(query);
+            const matchesCategory = selectedCategory === "all" || card.dataset.category === selectedCategory;
+            const showLink = matchesSearch && matchesCategory;
+            link.classList.toggle("hidden", !showLink);
+            if (showLink) cardMatches += 1;
+        });
+
+        [...card.querySelectorAll(".section-title")].forEach(heading => {
+            let nextElement = heading.nextElementSibling;
+            let showHeading = false;
+            while (nextElement && !nextElement.classList.contains("section-title")) {
+                if (nextElement.classList.contains("link-item") && !nextElement.classList.contains("hidden")) showHeading = true;
+                nextElement = nextElement.nextElementSibling;
+            }
+            heading.classList.toggle("hidden", !showHeading);
+        });
+
+        card.classList.toggle("hidden", cardMatches === 0);
+        visibleLinks += cardMatches;
+    });
+
+    resultCount.textContent = `${visibleLinks} link${visibleLinks === 1 ? "" : "s"} shown`;
+    emptyMessage.style.display = visibleLinks ? "none" : "block";
+}
+
+search.addEventListener("input", updatePortal);
+filter.addEventListener("change", updatePortal);
+updatePortal();
+</script>
+</body>
+</html>
