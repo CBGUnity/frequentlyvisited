@@ -116,7 +116,13 @@ footer { padding: 0 24px 28px; color: var(--muted); font-size: .86rem; }
 
     <div id="empty" class="empty">No links match your search.</div>
 </main>
-<footer>{{FOOTER_TEXT}}</footer>
+<footer>Local document links expect the attached files to remain in
+    the same folder as this HTML page.<br>
+	<div 
+		style="text-align:center">
+		<a href="{{FOOTER_TEXT}}">Contacts </a></p>
+	</div>{{FOOTER_TEXT}}
+</footer>
 <script>
 const search = document.getElementById("search");
 const filter = document.getElementById("filter");
